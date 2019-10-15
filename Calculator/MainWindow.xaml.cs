@@ -34,7 +34,6 @@ namespace Calculator
             btnAC.Click += BtnAC_Click;
             btnNegative.Click += BtnNegative_Click;
             btnPercentage.Click += BtnPercentage_Click;
-            btnEqual.Click += BtnEqual_Click;
         }
 
         private void BtnEqual_Click(object sender, RoutedEventArgs e)
@@ -69,7 +68,7 @@ namespace Calculator
 
             if (double.TryParse(lblResult.Content.ToString(), out tempNumber))
             {
-                tempNumber = tempNumber / 100;
+                tempNumber /= 100;
                 if (lastNumber != 0)
                     tempNumber *= lastNumber;
                 lblResult.Content = tempNumber.ToString();
