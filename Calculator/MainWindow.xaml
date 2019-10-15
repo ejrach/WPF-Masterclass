@@ -104,7 +104,8 @@
                 Margin="5"
                 Grid.Row="5"
                 Grid.ColumnSpan="2"/>
-        <Button x:Name="btnDecimal" Content="."
+        <Button x:Name="btnPoint" Content="."
+                Click="PointButton_Click"
                 Margin="5"
                 Grid.Row="5"
                 Grid.Column="2"/>
