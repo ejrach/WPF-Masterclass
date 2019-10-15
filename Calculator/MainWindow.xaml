@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Calculator"
         mc:Ignorable="d"
         Title="MainWindow" Height="525" Width="350">
+        
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -39,77 +40,109 @@
                 Grid.Column="2"/>
         <Button x:Name="btnDivide" Content="/"
                 Click="OperationButton_Click"
+                Background="Orange"
+                Foreground="White"
                 Margin="5"
                 Grid.Row="1"
                 Grid.Column="3"/>
         <Button x:Name="btnSeven" Content="7"
+                Background="#444444"
+                Foreground="White"
                 Click="NumberButton_Click"
                 Margin="5"
                 Grid.Row="2"/>
         <Button x:Name="btnEight" Content="8"
+                Background="#444444"
+                Foreground="White"
                 Click="NumberButton_Click"
                 Margin="5"
                 Grid.Row="2"
                 Grid.Column="1"/>
         <Button x:Name="btnNine" Content="9"
+                Background="#444444"
+                Foreground="White"
                 Click="NumberButton_Click"
                 Margin="5"
                 Grid.Row="2"
                 Grid.Column="2"/>
         <Button x:Name="btnMultiply" Content="*"
                 Click="OperationButton_Click"
+                Background="Orange"
+                Foreground="White"
                 Margin="5"
                 Grid.Row="2"
                 Grid.Column="3"/>
         <Button x:Name="btnFour" Content="4"
+                Background="#444444"
+                Foreground="White"
                 Click="NumberButton_Click"
                 Margin="5"
                 Grid.Row="3"/>
         <Button x:Name="btnFive" Content="5"
+                Background="#444444"
+                Foreground="White"
                 Click="NumberButton_Click"
                 Margin="5"
                 Grid.Row="3"
                 Grid.Column="1"/>
         <Button x:Name="btnSix" Content="6"
+                Background="#444444"
+                Foreground="White"
                 Click="NumberButton_Click"
                 Margin="5"
                 Grid.Row="3"
                 Grid.Column="2"/>
         <Button x:Name="btnMinus" Content="-"
                 Click="OperationButton_Click"
+                Background="Orange"
+                Foreground="White"
                 Margin="5"
                 Grid.Row="3"
                 Grid.Column="3"/>
         <Button x:Name="btnOne" Content="1"
+                Background="#444444"
+                Foreground="White"
                 Click="NumberButton_Click"
                 Margin="5"
                 Grid.Row="4"/>
         <Button x:Name="btnTwo" Content="2"
+                Background="#444444"
+                Foreground="White"
                 Click="NumberButton_Click"
                 Margin="5"
                 Grid.Row="4"
                 Grid.Column="1"/>
         <Button x:Name="btnThree" Content="3"
+                Background="#444444"
+                Foreground="White"
                 Click="NumberButton_Click"
                 Margin="5"
                 Grid.Row="4"
                 Grid.Column="2"/>
         <Button x:Name="btnPlus" Content="+"
                 Click="OperationButton_Click"
+                Background="Orange"
+                Foreground="White"
                 Margin="5"
                 Grid.Row="4"
                 Grid.Column="3"/>
         <Button x:Name="btnZero" Content="0"
+                Background="#444444"
+                Foreground="White"
                 Click="NumberButton_Click"
                 Margin="5"
                 Grid.Row="5"
                 Grid.ColumnSpan="2"/>
         <Button x:Name="btnPoint" Content="."
+                Background="#444444"
+                Foreground="White"
                 Click="PointButton_Click"
                 Margin="5"
                 Grid.Row="5"
                 Grid.Column="2"/>
         <Button x:Name="btnEqual" Content="="
+                Background="Orange"
+                Foreground="White"
                 Margin="5"
                 Grid.Row="5"
                 Grid.Column="3"/>
