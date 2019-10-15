@@ -23,6 +23,8 @@ namespace Calculator
         public MainWindow()
         {
             InitializeComponent();
+
+            lblResult.Content = "1432";
         }
     }
 }
