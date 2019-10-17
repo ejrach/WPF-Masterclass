@@ -34,14 +34,10 @@ namespace DesktopContactsApp
                 Phone = phoneNumberTextBox.Text
             };
 
-            string databaseName = "Contacts.db";
-            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string databasePath = System.IO.Path.Combine(folderPath, databaseName);
-
             //By using 'using' we are only using one element that exists within this context.
             //This also disposes the object once it's completed its execution, or leaves the using statement.
             //It effectivly closes the connection.
-            using (SQLiteConnection connection = new SQLiteConnection(databasePath))
+            using (SQLiteConnection connection = new SQLiteConnection(App.databasePath))
             {
                 connection.CreateTable<Contact>();  //this is ignored if the table already exists
                 connection.Insert(contact);
