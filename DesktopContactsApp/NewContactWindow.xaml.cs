@@ -9,6 +9,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using DesktopContactsApp.Classes;
+using SQLite;
 
 namespace DesktopContactsApp
 {
@@ -24,7 +26,28 @@ namespace DesktopContactsApp
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            // Save a contact
+            //TODO: Save a contact
+            Contact contact = new Contact()
+            {
+                Name = nameTextBox.Text,
+                Email = emailTextBox.Text,
+                Phone = phoneNumberTextBox.Text
+            };
+
+            string databaseName = "Contacts.db";
+            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string databasePath = System.IO.Path.Combine(folderPath, databaseName);
+
+            //By using 'using' we are only using one element that exists within this context.
+            //This also disposes the object once it's completed its execution, or leaves the using statement.
+            //It effectivly closes the connection.
+            using (SQLiteConnection connection = new SQLiteConnection(databasePath))
+            {
+                connection.CreateTable<Contact>();  //this is ignored if the table already exists
+                connection.Insert(contact);
+            }
+            
+            //Close the window
             Close();
         }
     }
