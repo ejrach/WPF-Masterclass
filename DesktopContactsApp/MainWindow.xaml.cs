@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DesktopContactsApp.Classes;
 
 namespace DesktopContactsApp
 {
@@ -23,12 +24,27 @@ namespace DesktopContactsApp
         public MainWindow()
         {
             InitializeComponent();
+
+            //Read on initialze
+            ReadDatabase();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             NewContactWindow newContactWindow = new NewContactWindow();
             newContactWindow.ShowDialog();
+
+            //Read when the window was closed.
+            ReadDatabase();
+        }
+
+        void ReadDatabase()
+        {
+            using (SQLite.SQLiteConnection connection = new SQLite.SQLiteConnection(App.databasePath))
+            {
+                connection.CreateTable<Contact>();          //generic method allows us to create a table if it doesn't exist. No error thrown.
+                var contacts = connection.Table<Contact>().ToList(); //generic method allows us to read a table
+            }
         }
     }
 }
