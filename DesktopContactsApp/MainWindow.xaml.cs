@@ -40,10 +40,17 @@ namespace DesktopContactsApp
 
         void ReadDatabase()
         {
+            List<Contact> contacts;
+            
             using (SQLite.SQLiteConnection connection = new SQLite.SQLiteConnection(App.databasePath))
             {
                 connection.CreateTable<Contact>();          //generic method allows us to create a table if it doesn't exist. No error thrown.
-                var contacts = connection.Table<Contact>().ToList(); //generic method allows us to read a table
+                contacts = connection.Table<Contact>().ToList(); //generic method allows us to read a table
+            }
+
+            if (contacts != null)
+            {
+                contactsListView.ItemsSource = contacts;
             }
         }
     }
