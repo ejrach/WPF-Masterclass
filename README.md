@@ -14,4 +14,4 @@ Properties, methods, Inheritance, Method Overloading, Method Overriding, Interfa
 Implements interface to SQLite database (Create, Read, Update Delete)
 Binds data to a custom control
 
-- REST and AI
+
