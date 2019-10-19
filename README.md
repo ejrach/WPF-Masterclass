@@ -14,4 +14,12 @@ Properties, methods, Inheritance, Method Overloading, Method Overriding, Interfa
 Implements interface to SQLite database (Create, Read, Update Delete)
 Binds data to a custom control
 
+- Weather App
+Uses MVVM architectural pattern.
+Uses API at: https://developer.accuweather.com/apis
+
+
+
+
+
 
