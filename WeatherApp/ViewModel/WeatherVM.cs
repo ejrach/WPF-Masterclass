@@ -4,6 +4,7 @@ using System.Text;
 using System.ComponentModel;
 using WeatherApp.Model;
 using WeatherApp.ViewModel.Helpers;
+using WeatherApp.ViewModel.Commands;
 
 namespace WeatherApp.ViewModel
 {
@@ -23,6 +24,8 @@ namespace WeatherApp.ViewModel
                 OnPropertyChange("Query");
             }
         }
+
+        public SearchCommand SearchCommand { get; set; }
 
         private CurrentConditions _currentConditions;
 
@@ -50,6 +53,7 @@ namespace WeatherApp.ViewModel
 
         public WeatherVM()
         {
+            //Display data during design time, just to show data is binding to the view.
             if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
             {
                 SelectedCity = new City
@@ -69,6 +73,9 @@ namespace WeatherApp.ViewModel
                     }
                 };
             }
+
+            //Want to initialize the search command, even outside of design time.
+            SearchCommand = new SearchCommand(this);
         }
 
         //This will be executed when the user presses the search button.

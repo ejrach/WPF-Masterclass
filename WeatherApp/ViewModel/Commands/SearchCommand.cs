@@ -18,7 +18,7 @@ namespace WeatherApp.ViewModel.Commands
 
         public bool CanExecute(object parameter)
         {
-            return true;
+            return true;    //We're always going to allow execution
         }
 
         public void Execute(object parameter)
