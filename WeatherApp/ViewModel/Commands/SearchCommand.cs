@@ -9,7 +9,11 @@ namespace WeatherApp.ViewModel.Commands
     {
         public WeatherVM VM { get; set; }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
 
         public SearchCommand(WeatherVM vm)
         {
@@ -18,7 +22,13 @@ namespace WeatherApp.ViewModel.Commands
 
         public bool CanExecute(object parameter)
         {
-            return true;    //We're always going to allow execution
+            string query = parameter as string;
+
+            //Here we are allowing the Search command to be executed only if the
+            //query is not null or contains whitespace.
+            if (string.IsNullOrWhiteSpace(query))
+                return false;
+            return true;
         }
 
         public void Execute(object parameter)
