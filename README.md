@@ -25,6 +25,8 @@
     binded to the view.
 6. Uses ObservableCollection<T> which is a list aware of changes. It updates with insertions and deletions.
     The binding source is established and changes update the UI.
+7. Uses IValueConverter which changes model values to what the View needs, and changing View inputs intp Model data.
+
 
 
 
