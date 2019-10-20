@@ -3,22 +3,24 @@
 
 # Projects
 - Calculator:
-Introduces WPF and XAML, sets properties and creates event handlers.
-Work with methods.
-Implements styling with static resources.
+1. Introduces WPF and XAML, sets properties and creates event handlers.
+2. Work with methods.
+3. Implements styling with static resources.
 
 - CSharp Practice:
-Properties, methods, Inheritance, Method Overloading, Method Overriding, Interfaces
+1. Properties, methods, Inheritance, Method Overloading, Method Overriding, Interfaces
 
 - Desktop Contact App:
-Implements interface to SQLite database (Create, Read, Update Delete)
-Binds data to a custom control
+1. Implements interface to SQLite database (Create, Read, Update Delete)
+2. Binds data to a custom control
 
 - Weather App:
-Uses MVVM architectural pattern.
-Uses API at: https://developer.accuweather.com/apis.
-Uses JSON Utils to abstract classes: https://jsonutils.com/.
-
+1. Uses MVVM architectural pattern.
+2. Uses API at: https://developer.accuweather.com/apis.
+3. Uses JSON Utils to abstract classes: https://jsonutils.com/.
+4. Uses INotifyPropertyChanged so that the view stays updated with the values from the model. 
+    And the model stays updated with the values from the view.
+5. 
 
 
 
