@@ -20,7 +20,8 @@
 3. Uses JSON Utils to abstract classes: https://jsonutils.com/.
 4. Uses INotifyPropertyChanged so that the view stays updated with the values from the model. 
     And the model stays updated with the values from the view.
-5. 
+5. Uses ICommand interface so code behind logic can be moved to the View Model and not be in the View.
+    Exist as a property for buttons. ViewModel implements the ICommand interface.
 
 
 
