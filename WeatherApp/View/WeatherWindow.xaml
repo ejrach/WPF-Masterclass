@@ -49,7 +49,7 @@
             </StackPanel>
             <TextBlock Grid.Column="1"
                        VerticalAlignment="Center"
-                       Text="{Binding Temperature.Imperial.Value, StringFormat={}{0} F}"
+                       Text="{Binding Temperature.Imperial.Value, StringFormat={}{0} °F}"
                        Foreground="#f4f4f8"
                        FontSize="30"
                        Margin="20,0" />
