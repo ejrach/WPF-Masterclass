@@ -21,7 +21,10 @@
 4. Uses INotifyPropertyChanged so that the view stays updated with the values from the model. 
     And the model stays updated with the values from the view.
 5. Uses ICommand interface so code behind logic can be moved to the View Model and not be in the View.
-    Exist as a property for buttons. ViewModel implements the ICommand interface.
+    Exist as a property for buttons. ViewModel implements the ICommand interface. Then the command is
+    binded to the view.
+6. Uses ObservableCollection<T> which is a list aware of changes. It updates with insertions and deletions.
+    The binding source is established and changes update the UI.
 
 
 

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using WeatherApp.Model;
 using WeatherApp.ViewModel.Helpers;
 using WeatherApp.ViewModel.Commands;
+using System.Collections.ObjectModel;
 
 namespace WeatherApp.ViewModel
 {
@@ -24,6 +25,8 @@ namespace WeatherApp.ViewModel
                 OnPropertyChange("Query");
             }
         }
+
+        public ObservableCollection<City> Cities { get; set; }
 
         public SearchCommand SearchCommand { get; set; }
 
@@ -76,12 +79,22 @@ namespace WeatherApp.ViewModel
 
             //Want to initialize the search command, even outside of design time.
             SearchCommand = new SearchCommand(this);
+
+            Cities = new ObservableCollection<City>();
         }
 
         //This will be executed when the user presses the search button.
         public async void  MakeQuery()
         {
             var cities = await AccuWeatherHelper.GetCities(Query);
+
+            Cities.Clear();
+
+            //Add the cities from the query to the observable collection.
+            foreach(var city in cities)
+            {
+                Cities.Add(city);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
