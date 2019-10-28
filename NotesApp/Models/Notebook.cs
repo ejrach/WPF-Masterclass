@@ -1,13 +1,18 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace NotesApp.Models
 {
-    public class Notebook
+    public class Notebook : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private int id;
 
+        [PrimaryKey, AutoIncrement]
         public int Id
         {
             get { return id; }
@@ -16,6 +21,7 @@ namespace NotesApp.Models
 
         private int _userId;
 
+        [Indexed]
         public int UserId
         {
             get { return _userId; }
@@ -23,6 +29,8 @@ namespace NotesApp.Models
         }
 
         private string _name;
+
+        
 
         public string Name
         {
