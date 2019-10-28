@@ -23,6 +23,7 @@ namespace NotesApp.ViewModel.Commands
         public void Execute(object parameter)
         {
             //Todo: create new notebook
+            VM.CreateNotebook();
         }
     }
 }
