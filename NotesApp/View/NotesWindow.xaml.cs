@@ -31,5 +31,18 @@ namespace NotesApp.View
         {
 
         }
+
+        private void contentRichTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int ammountCharacters = (new TextRange(contentRichTextBox.Document.ContentStart, contentRichTextBox.Document.ContentEnd)).Text.Length;
+
+            statusTextBlock.Text = $"Document length: {ammountCharacters} characters";
+        }
+
+        private void boldButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Access the fontweight property and set the font to bold.
+            contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontWeightProperty, FontWeights.Bold);
+        }
     }
 }
