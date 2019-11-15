@@ -9,7 +9,7 @@ namespace NotesApp.ViewModel
     public class DatabaseHelper
     {
         //defining static so we can easily access without creating a new instance of the class
-        private static readonly string dbFile = Path.Combine(Environment.CurrentDirectory, "notesDb.db3");
+        public static readonly string dbFile = Path.Combine(Environment.CurrentDirectory, "notesDb.db3");
 
         public static bool Insert<T>(T item)
         {

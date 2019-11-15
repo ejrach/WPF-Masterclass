@@ -38,6 +38,12 @@ namespace NotesApp.ViewModel
         {
             NewNotebookCommand = new NewNotebookCommand(this);
             NewNoteCommand = new NewNoteCommand(this);
+
+            //Create observable collections
+            Notebooks = new ObservableCollection<Notebook>();
+            Notes = new ObservableCollection<Note>();
+
+            ReadNotebooks();
         }
 
         public void CreateNotebook()
@@ -61,6 +67,40 @@ namespace NotesApp.ViewModel
             };
 
             DatabaseHelper.Insert(newNote);
+        }
+
+        public void ReadNotebooks()
+        {
+            using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(DatabaseHelper.dbFile))
+            {
+                var notebooks = conn.Table<Notebook>().ToList();
+
+                //First clear the oberservable collection
+                Notebooks.Clear();
+                foreach (var notebook in notebooks)
+                {
+                    Notebooks.Add(notebook);
+                }
+            }
+        }
+
+        public void ReadNotes()
+        {
+            using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(DatabaseHelper.dbFile))
+            {
+                if(SelectedNotebook != null)
+                {
+                    //Using "where" so we only read notes that are part of the notebook.
+                    var notes = conn.Table<Note>().Where(n => n.NotebookId == SelectedNotebook.Id).ToList();
+
+                    //First clear the oberservable collection
+                    Notes.Clear();
+                    foreach (var note in notes)
+                    {
+                        notes.Add(note);
+                    }
+                }
+            }
         }
     }
 }
