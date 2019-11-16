@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -27,9 +28,20 @@ namespace NotesApp.View
             Application.Current.Shutdown();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void SpeechButton_Click(object sender, RoutedEventArgs e)
         {
+            //TODO: Need to complete per the speech recognition lesson. Problem: couldn't add the correct assembly.
 
+            //Asking if is checked equal to null, if so then set to false
+            bool isButtonEnabled = (sender as ToggleButton).IsChecked ?? false;
+            if (isButtonEnabled)
+            {
+                //TODO: something
+            }
+            else
+            {
+                //TODO: something
+            }
         }
 
         private void contentRichTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -41,8 +53,27 @@ namespace NotesApp.View
 
         private void boldButton_Click(object sender, RoutedEventArgs e)
         {
-            //Access the fontweight property and set the font to bold.
-            contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontWeightProperty, FontWeights.Bold);
+            //Asking if is checked equal to null, if so then set to false
+            bool isButtonEnabled = (sender as ToggleButton).IsChecked ?? false;
+            if (isButtonEnabled)
+            {
+                //Access the fontweight property and set the font to bold.
+                contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontWeightProperty, FontWeights.Bold);
+            }
+            else
+            {
+                //Access the fontweight property and set the font to normal.
+                contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontWeightProperty, FontWeights.Normal);
+            }            
+        }
+
+        private void contentRichTextBox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            //Get the state of the selection
+            var selectedState = contentRichTextBox.Selection.GetPropertyValue(Inline.FontWeightProperty);
+
+            //set the button to that property
+            boldButton.IsChecked = (selectedState != DependencyProperty.UnsetValue) && (selectedState.Equals(FontWeights.Bold));
         }
     }
 }

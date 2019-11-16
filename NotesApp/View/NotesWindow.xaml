@@ -11,7 +11,7 @@
     <Window.Resources>
         <vm:NotesVM x:Key="vm"/>
     </Window.Resources>
-    
+
     <DockPanel DataContext="{StaticResource vm}">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
@@ -51,19 +51,24 @@
         </ListView>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
-                <Button Content="Speech"
-                        Click="Button_Click"/>
-                <Button x:Name="boldButton"
+                <ToggleButton Content="Speech"
+                        Click="SpeechButton_Click"/>
+                <ToggleButton x:Name="boldButton"
                         Click="boldButton_Click">
                     <TextBlock Text="B"
                                FontWeight="Bold"/>
-                </Button>
+                </ToggleButton>
             </ToolBar>
         </ToolBarTray>
         <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="19*"/>
+                <ColumnDefinition Width="141*"/>
+            </Grid.ColumnDefinitions>
             <RichTextBox x:Name="contentRichTextBox"
-                         TextChanged="contentRichTextBox_TextChanged"/>
+                         SelectionChanged="contentRichTextBox_SelectionChanged"
+                         TextChanged="contentRichTextBox_TextChanged" Grid.ColumnSpan="2"/>
         </Grid>
-        
+
     </DockPanel>
 </Window>
