@@ -69,11 +69,52 @@ namespace NotesApp.View
 
         private void contentRichTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            //Get the state of the selection
-            var selectedState = contentRichTextBox.Selection.GetPropertyValue(Inline.FontWeightProperty);
+            //Get the weight of the selection and set the button to that property
+            var selectedWeight = contentRichTextBox.Selection.GetPropertyValue(Inline.FontWeightProperty);
+            boldButton.IsChecked = (selectedWeight != DependencyProperty.UnsetValue) && (selectedWeight.Equals(FontWeights.Bold));
 
-            //set the button to that property
-            boldButton.IsChecked = (selectedState != DependencyProperty.UnsetValue) && (selectedState.Equals(FontWeights.Bold));
+            //Get the weight of the selection and set the button to that property
+            var selectedStyle = contentRichTextBox.Selection.GetPropertyValue(Inline.FontStyleProperty);
+            italicButton.IsChecked = (selectedStyle != DependencyProperty.UnsetValue) && (selectedStyle.Equals(FontStyles.Italic));
+
+            //Get the weight of the selection and set the button to that property
+            var selectedDecoration = contentRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty);
+            underlineButton.IsChecked = (selectedDecoration != DependencyProperty.UnsetValue) && (selectedDecoration.Equals(TextDecorations.Underline));
+        }
+
+        private void italicButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Asking if is checked equal to null, if so then set to false
+            bool isButtonEnabled = (sender as ToggleButton).IsChecked ?? false;
+            if (isButtonEnabled)
+            {
+                //Access the fontweight property and set the font to Italic.
+                contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontStyleProperty, FontStyles.Italic);
+            }
+            else
+            {
+                //Access the fontweight property and set the font to normal.
+                contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontStyleProperty, FontStyles.Normal);
+            }
+        }
+
+        private void underlineButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Asking if is checked equal to null, if so then set to false
+            bool isButtonEnabled = (sender as ToggleButton).IsChecked ?? false;
+            if (isButtonEnabled)
+            {
+                //Access the fontweight property and set the font to underline.
+                contentRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline);
+            }
+            else
+            {
+                TextDecorationCollection textDecorations;
+
+                //Access the fontweight property and set the font to normal.
+                (contentRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty) as TextDecorationCollection).TryRemove(TextDecorations.Underline, out textDecorations);
+                contentRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, textDecorations);
+            }
         }
     }
 }

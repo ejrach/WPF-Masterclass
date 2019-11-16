@@ -58,6 +58,16 @@
                     <TextBlock Text="B"
                                FontWeight="Bold"/>
                 </ToggleButton>
+                <ToggleButton x:Name="italicButton"
+                              Click="italicButton_Click">
+                    <TextBlock Text="I"
+                               FontStyle="Italic" />
+                </ToggleButton>
+                <ToggleButton x:Name="underlineButton"
+                              Click="underlineButton_Click">
+                    <TextBlock Text="U"
+                               TextDecorations="Underline"/>
+                </ToggleButton>
             </ToolBar>
         </ToolBarTray>
         <Grid>
