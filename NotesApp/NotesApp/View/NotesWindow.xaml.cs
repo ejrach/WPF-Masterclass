@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Speech.Recognition;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -19,37 +22,53 @@ namespace NotesApp.View
     /// </summary>
     public partial class NotesWindow : Window
     {
+        SpeechRecognitionEngine recognizer;
         public NotesWindow()
         {
             InitializeComponent();
 
-            //Load the font families
+            var currentCulture = (from r in SpeechRecognitionEngine.InstalledRecognizers()
+                                 where r.Culture.Equals(Thread.CurrentThread.CurrentCulture)
+                                 select r).FirstOrDefault();
+            recognizer = new SpeechRecognitionEngine(currentCulture);
+
+            GrammarBuilder builder = new GrammarBuilder();
+            builder.AppendDictation();
+            Grammar grammaer = new Grammar(builder);
+
+            recognizer.LoadGrammar(grammaer);
+            recognizer.SetInputToDefaultAudioDevice();
+            recognizer.SpeechRecognized += Recognizer_SpeechRecognized;
+
             var fontFamilies = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
             fontFamilyComboBox.ItemsSource = fontFamilies;
 
-            //Load the font sizes
-            List<double> fontSizes = new List<double>() { 8, 9, 10, 11, 14, 16, 28, 32, 48, 72 };
+            List<double> fontSizes = new List<double>() { 8, 9, 10, 11, 12, 14, 16, 28, 48, 72 };
             fontSizeComboBox.ItemsSource = fontSizes;
+        }
+
+        private void Recognizer_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            string recognizedText = e.Result.Text;
+
+            contentRichTextBox.Document.Blocks.Add(new Paragraph(new Run(recognizedText)));
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
-
+        
         private void SpeechButton_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: Need to complete per the speech recognition lesson. Problem: couldn't add the correct assembly.
-
-            //Asking if is checked equal to null, if so then set to false
             bool isButtonEnabled = (sender as ToggleButton).IsChecked ?? false;
             if (isButtonEnabled)
             {
-                //TODO: something
+                recognizer.RecognizeAsync(RecognizeMode.Multiple);
             }
             else
             {
-                //TODO: something
+                recognizer.RecognizeAsyncStop();
             }
         }
 
@@ -62,69 +81,48 @@ namespace NotesApp.View
 
         private void boldButton_Click(object sender, RoutedEventArgs e)
         {
-            //Asking if is checked equal to null, if so then set to false
             bool isButtonEnabled = (sender as ToggleButton).IsChecked ?? false;
+
             if (isButtonEnabled)
-            {
-                //Access the fontweight property and set the font to bold.
                 contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontWeightProperty, FontWeights.Bold);
-            }
             else
-            {
-                //Access the fontweight property and set the font to normal.
                 contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontWeightProperty, FontWeights.Normal);
-            }            
         }
 
         private void contentRichTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            //Get the weight of the selection and set the button to that property
             var selectedWeight = contentRichTextBox.Selection.GetPropertyValue(Inline.FontWeightProperty);
             boldButton.IsChecked = (selectedWeight != DependencyProperty.UnsetValue) && (selectedWeight.Equals(FontWeights.Bold));
 
-            //Get the weight of the selection and set the button to that property
             var selectedStyle = contentRichTextBox.Selection.GetPropertyValue(Inline.FontStyleProperty);
             italicButton.IsChecked = (selectedStyle != DependencyProperty.UnsetValue) && (selectedStyle.Equals(FontStyles.Italic));
 
-            //Get the weight of the selection and set the button to that property
-            var selectedDecoration = contentRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty);
-            underlineButton.IsChecked = (selectedDecoration != DependencyProperty.UnsetValue) && (selectedDecoration.Equals(TextDecorations.Underline));
+            var selecteDecoration = contentRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty);
+            underlineButton.IsChecked = (selecteDecoration != DependencyProperty.UnsetValue) && (selecteDecoration.Equals(TextDecorations.Underline));
 
             fontFamilyComboBox.SelectedItem = contentRichTextBox.Selection.GetPropertyValue(Inline.FontFamilyProperty);
             fontSizeComboBox.Text = (contentRichTextBox.Selection.GetPropertyValue(Inline.FontSizeProperty)).ToString();
-
         }
 
         private void italicButton_Click(object sender, RoutedEventArgs e)
         {
-            //Asking if is checked equal to null, if so then set to false
             bool isButtonEnabled = (sender as ToggleButton).IsChecked ?? false;
+
             if (isButtonEnabled)
-            {
-                //Access the fontweight property and set the font to Italic.
                 contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontStyleProperty, FontStyles.Italic);
-            }
             else
-            {
-                //Access the fontweight property and set the font to normal.
                 contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontStyleProperty, FontStyles.Normal);
-            }
         }
 
         private void underlineButton_Click(object sender, RoutedEventArgs e)
         {
-            //Asking if is checked equal to null, if so then set to false
             bool isButtonEnabled = (sender as ToggleButton).IsChecked ?? false;
+
             if (isButtonEnabled)
-            {
-                //Access the fontweight property and set the font to underline.
                 contentRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline);
-            }
             else
             {
                 TextDecorationCollection textDecorations;
-
-                //Access the fontweight property and set the font to normal.
                 (contentRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty) as TextDecorationCollection).TryRemove(TextDecorations.Underline, out textDecorations);
                 contentRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, textDecorations);
             }
@@ -132,7 +130,7 @@ namespace NotesApp.View
 
         private void fontFamilyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (fontFamilyComboBox.SelectedItem != null)
+            if(fontFamilyComboBox.SelectedItem != null)
             {
                 contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontFamilyProperty, fontFamilyComboBox.SelectedItem);
             }

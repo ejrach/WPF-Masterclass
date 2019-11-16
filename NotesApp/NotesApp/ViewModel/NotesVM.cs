@@ -1,37 +1,32 @@
-﻿using NotesApp.Models;
+﻿using NotesApp.Model;
 using NotesApp.ViewModel.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace NotesApp.ViewModel
 {
-    //What we want to do in this ViewModel:
-    //  1. List notebooks
-    //  2. List notes
-    //  3. Display text inside a file
-    //  4. Commands like create new notebook and create new note.
     public class NotesVM
     {
         public ObservableCollection<Notebook> Notebooks { get; set; }
 
-        private Notebook _selectedNotebook;
-
+        private Notebook selectedNotebook;
         public Notebook SelectedNotebook
         {
-            get { return _selectedNotebook; }
-            set 
-            { 
-                _selectedNotebook = value; 
-                //Todo: get notes
+            get { return selectedNotebook; }
+            set
+            {
+                selectedNotebook = value;
+                ReadNotes();
             }
         }
 
         public ObservableCollection<Note> Notes { get; set; }
 
         public NewNotebookCommand NewNotebookCommand { get; set; }
-
         public NewNoteCommand NewNoteCommand { get; set; }
 
         public NotesVM()
@@ -39,21 +34,23 @@ namespace NotesApp.ViewModel
             NewNotebookCommand = new NewNotebookCommand(this);
             NewNoteCommand = new NewNoteCommand(this);
 
-            //Create observable collections
             Notebooks = new ObservableCollection<Notebook>();
             Notes = new ObservableCollection<Note>();
 
             ReadNotebooks();
+            ReadNotes();
         }
 
         public void CreateNotebook()
         {
-            Notebook notebook = new Notebook()
+            Notebook newNotebook = new Notebook()
             {
-                Name = "New Notebook"
+                Name = "New notebook"
             };
 
-            DatabaseHelper.Insert(notebook);
+            DatabaseHelper.Insert(newNotebook);
+
+            ReadNotebooks();
         }
 
         public void CreateNote(int notebookId)
@@ -63,10 +60,12 @@ namespace NotesApp.ViewModel
                 NotebookId = notebookId,
                 CreatedTime = DateTime.Now,
                 UpdatedTime = DateTime.Now,
-                Title = "New Note"
+                Title = "New note"
             };
 
             DatabaseHelper.Insert(newNote);
+
+            ReadNotes();
         }
 
         public void ReadNotebooks()
@@ -75,9 +74,8 @@ namespace NotesApp.ViewModel
             {
                 var notebooks = conn.Table<Notebook>().ToList();
 
-                //First clear the oberservable collection
                 Notebooks.Clear();
-                foreach (var notebook in notebooks)
+                foreach(var notebook in notebooks)
                 {
                     Notebooks.Add(notebook);
                 }
@@ -88,16 +86,14 @@ namespace NotesApp.ViewModel
         {
             using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(DatabaseHelper.dbFile))
             {
-                if(SelectedNotebook != null)
+                if (SelectedNotebook != null)
                 {
-                    //Using "where" so we only read notes that are part of the notebook.
                     var notes = conn.Table<Note>().Where(n => n.NotebookId == SelectedNotebook.Id).ToList();
 
-                    //First clear the oberservable collection
                     Notes.Clear();
-                    foreach (var note in notes)
+                    foreach(var note in notes)
                     {
-                        notes.Add(note);
+                        Notes.Add(note);
                     }
                 }
             }

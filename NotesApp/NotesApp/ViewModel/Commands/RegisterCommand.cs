@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace NotesApp.ViewModel.Commands
 {
-    public class NewNotebookCommand : ICommand
+    public class RegisterCommand : ICommand
     {
-        public NotesVM VM { get; set; }
+        public LoginVM VM { get; set; }
         public event EventHandler CanExecuteChanged;
 
-        public NewNotebookCommand(NotesVM vm)
+        public RegisterCommand(LoginVM vm)
         {
             VM = vm;
         }
@@ -22,8 +24,7 @@ namespace NotesApp.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            //Todo: create new notebook
-            VM.CreateNotebook();
+            //TODO: Login functionality
         }
     }
 }

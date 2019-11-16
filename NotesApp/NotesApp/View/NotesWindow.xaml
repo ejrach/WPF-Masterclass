@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NotesApp.View"
         xmlns:vm="clr-namespace:NotesApp.ViewModel"
+        xmlns:uc="clr-namespace:NotesApp.View.UserControls"
         mc:Ignorable="d"
         Title="NotesWindow" Height="400" Width="600">
 
     <Window.Resources>
         <vm:NotesVM x:Key="vm"/>
     </Window.Resources>
-
+    
     <DockPanel DataContext="{StaticResource vm}">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
@@ -21,7 +22,7 @@
                           Command="{Binding NewNoteCommand}"
                           CommandParameter="{Binding SelectedNotebook}"/>
                 <Separator/>
-                <MenuItem Header="Exit" 
+                <MenuItem Header="Exit"
                           Click="MenuItem_Click"/>
             </MenuItem>
         </Menu>
@@ -31,12 +32,13 @@
             </StatusBarItem>
         </StatusBar>
         <ListView Width="140"
+                  Background="MidnightBlue"
                   DockPanel.Dock="Left"
                   SelectedItem="{Binding SelectedNotebook, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   ItemsSource="{Binding Notebooks}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}" />
+                    <uc:Notebook DisplayNotebook="{Binding}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
@@ -45,7 +47,7 @@
                   ItemsSource="{Binding Notes}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Title}" />
+                    <uc:NoteControl Note="{Binding}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
@@ -61,7 +63,7 @@
                 <ToggleButton x:Name="italicButton"
                               Click="italicButton_Click">
                     <TextBlock Text="I"
-                               FontStyle="Italic" />
+                               FontStyle="Italic"/>
                 </ToggleButton>
                 <ToggleButton x:Name="underlineButton"
                               Click="underlineButton_Click">
@@ -71,21 +73,16 @@
                 <ComboBox x:Name="fontFamilyComboBox"
                           Width="100"
                           SelectionChanged="fontFamilyComboBox_SelectionChanged"/>
-                <ComboBox x:Name="fontSizeComboBox" 
+                <ComboBox x:Name="fontSizeComboBox"
                           Width="50"
                           IsEditable="True"
                           TextBoxBase.TextChanged="fontSizeComboBox_TextChanged"/>
             </ToolBar>
         </ToolBarTray>
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="19*"/>
-                <ColumnDefinition Width="141*"/>
-            </Grid.ColumnDefinitions>
             <RichTextBox x:Name="contentRichTextBox"
                          SelectionChanged="contentRichTextBox_SelectionChanged"
-                         TextChanged="contentRichTextBox_TextChanged" Grid.ColumnSpan="2"/>
+                         TextChanged="contentRichTextBox_TextChanged"/>
         </Grid>
-
     </DockPanel>
 </Window>

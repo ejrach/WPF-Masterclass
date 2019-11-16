@@ -2,20 +2,21 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace NotesApp.ViewModel
 {
     public class DatabaseHelper
     {
-        //defining static so we can easily access without creating a new instance of the class
-        public static readonly string dbFile = Path.Combine(Environment.CurrentDirectory, "notesDb.db3");
+        public static string dbFile = Path.Combine(Environment.CurrentDirectory, "notesDb.db3");
 
         public static bool Insert<T>(T item)
         {
             bool result = false;
 
-            using(SQLiteConnection conn = new SQLiteConnection(dbFile))
+            using (SQLiteConnection conn = new SQLiteConnection(dbFile))
             {
                 conn.CreateTable<T>();
                 int numberOfRows = conn.Insert(item);
